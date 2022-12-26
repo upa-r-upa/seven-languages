@@ -63,6 +63,9 @@ List2D dim := method(x, y,
     ) 
 )
 
+matrix := List2D clone
+matrix dim(2,4) println
+
 List2D set := method(x, y, value,
     self at(x) atPut(y, value)
 )

@@ -3,7 +3,7 @@ randomGame := method(randomNumber,
     tryCount := 0
     loopStatus := true
 
-    while (tryCount < 3 and loopStatus == true,
+    while (tryCount < 10 and loopStatus == true,
         "Guess a number between 1 and 100" println
 
         guess := File standardInput readLine("Make a guess: ")
