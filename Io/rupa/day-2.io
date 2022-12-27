@@ -13,6 +13,11 @@ fib := method(n,
     result
 )
 
+fib_recursive := method(n,
+    if (n <= 1, n, fib_recursive(n-1) + fib_recursive(n-2))
+)
+
+// fib_recursive(7) println
 // fib(7) println
 
 // 0 나누기 override
@@ -55,21 +60,43 @@ list(5, 6) myAverage println
 
 // 2차원 리스트를 위한 프로토타입
 List2D := List clone
+
 List2D dim := method(x, y, 
     y repeat(
         inner := list()
         x repeat(inner push(nil))
+    
         self append(inner) 
-    ) 
+    )
 )
-
-matrix := List2D clone
-matrix dim(2,4) println
 
 List2D set := method(x, y, value,
     self at(x) atPut(y, value)
 )
 
 List2D get := method(x, y,
-    self at(x) ay(y)
+    self at(x) at(y)
 )
+
+// 전치 행렬
+List2D transpose := method(
+    new_matrix := List2D clone
+    x_len := self at(0) size
+    y_len := self size
+    new_matrix dim(x_len, y_len)
+    
+    x_len repeat(x,
+        y_len repeat(y,
+            new_matrix set(y, x, get(x, y))
+        )
+    )
+
+    new_matrix
+)
+
+matrix := List2D clone
+matrix dim(2,4)
+matrix set(0, 0, "TEST A")
+matrix set(0, 1, "TEST B")
+
+matrix transpose println

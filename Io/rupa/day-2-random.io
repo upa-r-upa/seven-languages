@@ -1,5 +1,7 @@
 // 랜덤 수 알아맞추기
-randomGame := method(randomNumber,
+randomGame := method(
+    number := Random value(1, 100) round
+
     tryCount := 0
     loopStatus := true
 
@@ -17,4 +19,4 @@ randomGame := method(randomNumber,
     "---GAME END---" println
 )
 
-randomGame(44)
+randomGame()
