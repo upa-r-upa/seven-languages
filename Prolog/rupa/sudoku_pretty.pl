@@ -1,21 +1,43 @@
-transpose([], []).
-transpose([F|Fs], Ts) :-
-    transpose(F, [F|Fs], Ts).
-
-transpose([], _, []).
-transpose([_|Rs], Ms, [Ts|Tss]) :-
-        lists_firsts_rests(Ms, Ts, Ms1),
-        transpose(Rs, Ms1, Tss).
-
-lists_firsts_rests([], [], []).
-lists_firsts_rests([[F|Os]|Rest], [F|Fs], [Os|Oss]) :-
-        lists_firsts_rests(Rest, Fs, Oss).
-
-/* 
-transpose 라이브러리를 쓰려고 했는데 gnu엔 없는것같고,
-도저히 하드하게 아래처럼 일일히 할 자신이 없어서 (9*9)
-소스를 가져와서 행렬 관련 처리를 했습니다
- */
+transpose(Length, Solution, Columns) :-
+    Length =:= 6,
+    Solution = [
+        S11, S12, S13, S14, S15, S16,
+        S21, S22, S23, S24, S25, S26,
+        S31, S32, S33, S34, S35, S36,
+        S41, S42, S43, S44, S45, S46,
+        S51, S52, S53, S54, S55, S56,
+        S61, S62, S63, S64, S65, S66
+		],
+    Column1 = [S11, S21, S31, S41, S51, S61],
+    Column2 = [S12, S22, S32, S42, S52, S62],
+    Column3 = [S13, S23, S33, S43, S53, S63],
+    Column4 = [S14, S24, S34, S44, S54, S64],
+    Column5 = [S15, S25, S35, S45, S55, S65],
+    Column6 = [S16, S26, S36, S46, S56, S66],
+    Columns = [Column1, Column2, Column3, Column4, Column5, Column6].
+    
+transpose(Length, Solution, Columns) :-
+    Length =:= 9,
+    Solution = [S11, S12, S13, S14, S15, S16, S17, S18, S19,
+			S21, S22, S23, S24, S25, S26, S27, S28, S29,
+			S31, S32, S33, S34, S35, S36, S37, S38, S39,
+			S41, S42, S43, S44, S45, S46, S47, S48, S49,
+			S51, S52, S53, S54, S55, S56, S57, S58, S59,
+			S61, S62, S63, S64, S65, S66, S67, S68, S69,
+			S71, S72, S73, S74, S75, S76, S77, S78, S79,
+			S81, S82, S83, S84, S85, S86, S87, S88, S89,
+			S91, S92, S93, S94, S95, S96, S97, S98, S99
+		],
+        Column1 = [S11, S21, S31, S41, S51, S61, S71, S81, S91],
+        Column2 = [S12, S22, S32, S42, S52, S62, S72, S82, S92],
+        Column3 = [S13, S23, S33, S43, S53, S63, S73, S83, S93],
+        Column4 = [S14, S24, S34, S44, S54, S64, S74, S84, S94],
+        Column5 = [S15, S25, S35, S45, S55, S65, S75, S85, S95],
+        Column6 = [S16, S26, S36, S46, S56, S66, S76, S86, S96],
+        Column7 = [S17, S27, S37, S47, S57, S67, S77, S87, S97],
+        Column8 = [S18, S28, S38, S48, S58, S68, S78, S88, S98],
+        Column9 = [S19, S29, S39, S49, S59, S69, S79, S89, S99],
+        Columns = [Column1, Column2, Column3, Column4, Column5, Column6, Column7, Column8, Column9].
 
 valid([]).
 valid([Head|Tail]) :-
@@ -23,10 +45,10 @@ valid([Head|Tail]) :-
     valid(Tail).
 
 split_every(_, [], []).
-split_every(N, [X|Xs], [Y|Ys]) :-
-    length(Y, N),
-    append(Y, L, [X|Xs]),
-    split_every(N, L, Ys).  
+split_every(Length, List, [Head|Tail]) :-
+    length(Head, Length),
+    append(Head, Least, List),
+    split_every(Length, Least, Tail).  
 
 get_boxs(Length, Solution, Boxs) :-
     Length =:= 6,
@@ -104,7 +126,7 @@ sudoku(Puzzle, Solution) :-
     Sqrt is round(sqrt(Length)),
 
     get_rows(Sqrt, Solution, Rows),
-    transpose(Rows, Columns),
+    transpose(Sqrt, Solution, Columns),
     get_boxs(Sqrt, Solution, Boxs),
 
     fd_domain(Solution, 1, Sqrt),
